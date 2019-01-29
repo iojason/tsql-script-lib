@@ -1,12 +1,13 @@
 --Cursor that will search for specific data in a database and provide the table name and column name that it is in.
---Change <DATABASE_NAME> and @search variable before executing.
---Created by Jason Phan (hi@jasondphan.com) sometime between 2013-2015.
+--change <DATABASE_NAME>, @search and @exact_search variables before executing.
+--Created by Jason Phan (hi@jasondphan.com) sometime between 2013-2014.
 
 use <DATABASE_NAME>
 go
 
-declare @search varchar(1000)
+declare @search varchar(1000), declare @exact_search bit
 set @search = 'DATA_YOU_WANT_TO_SEARCH'
+set @exact_search = '<1 or 0> (e.g. set @exact = 1)'
 
 
 declare find_text_cursor cursor for
@@ -25,12 +26,22 @@ declare @sql varchar(1000)
 fetch next from find_text_cursor into @table_name, @column_name
 while @@fetch_status = 0
 begin
-execute ('
-declare @count int
-select @count = count(*) from [' + @table_name + '] where cast(' + @column_name + ' as varchar) like ''%' + @search + '%''
-if (@count > 0)
-print ''Found ' + @search + ' in table ' + @table_name + '.' + @column_name + '!''
-')
+IF @exact_search = 1
+  -- = operator search will perform much faster and find exactly what you need.
+  execute ('
+  declare @count int
+  select @count = count(*) from [' + @table_name + '] where cast(' + @column_name + ' as varchar) = ''' + @search + '''
+  if (@count > 0)
+  print ''Found ' + @search + ' in table ' + @table_name + '.' + @column_name + '!''
+  ')
+ELSE
+  -- LIKE search will perform slower.
+  execute ('
+  declare @count int
+  select @count = count(*) from [' + @table_name + '] where cast(' + @column_name + ' as varchar) like ''%' + @search + '%''
+  if (@count > 0)
+  print ''Found ' + @search + ' in table ' + @table_name + '.' + @column_name + '!''
+  ')
 fetch next from find_text_cursor into @table_name, @column_name
 end
 
