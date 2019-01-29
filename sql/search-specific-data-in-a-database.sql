@@ -1,6 +1,6 @@
 --Cursor that will search for specific data in a database and provide the table name and column name that it is in.
---change <DATABASE_NAME> and @search variable before executing.
---Created by Jason Phan (hi@jasondphan.com) sometime between 2013-2014.
+--Change <DATABASE_NAME> and @search variable before executing.
+--Created by Jason Phan (hi@jasondphan.com) sometime between 2013-2015.
 
 use <DATABASE_NAME>
 go
