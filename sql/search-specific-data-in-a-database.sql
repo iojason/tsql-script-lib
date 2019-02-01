@@ -21,7 +21,6 @@ open find_text_cursor
 
 declare @table_name varchar(1000)
 declare @column_name varchar(1000)
-declare @sql varchar(1000)
 
 fetch next from find_text_cursor into @table_name, @column_name
 while @@fetch_status = 0
