@@ -1,5 +1,5 @@
 --Cursor that will search for specific data in a database and provide the table name and column name that it is in.
---change <DATABASE_NAME>, @search and @exact_search variables before executing.
+--Change <DATABASE_NAME>, @search and @exact_search variables before executing.
 --Created by Jason Phan (hi@jasondphan.com) sometime between 2013-2014.
 
 use <DATABASE_NAME>
